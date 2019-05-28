@@ -1,13 +1,51 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, {FlatList, StyleSheet} from 'react-native';
+import {Container, Content, Card, CardItem, Text} from 'native-base';
 
-export default class Decks extends React.Component {
+class Decks extends React.Component {
+
+    state = {
+        decks: null,
+    };
+
+    onDeckCardPress(deck) {
+       //TODO: go to page
+    }
 
     render() {
+        const { decks } = this.props;
+
         return (
-            <View style={{flex: 1}}>
-                <Text>Decks</Text>
-            </View>
+            <Container style={{flex: 1}}>
+                <Content>
+                    <FlatList
+                        data={decks}
+                        renderItem={({item}) => {
+                            <TouchableOpacity key={item.id} onPress={() => this.onDeckCardPress(itme)}>
+                                <Card bordered >
+                                    <CardItem header style={{justifyContent:"center",backgroundColor:colors.homeCardBackgroundColor}} >
+                                            <Text>{item.title}</Text>
+                                    </CardItem>
+                                    <CardItem style={{backgroundColor:colors.homeCardBackgroundColor}}>
+                                        <Body style={{alignItems:"center"}}>
+                                            <Text>
+                                                {item.questions.length} cards
+                                            </Text>
+                                        </Body>
+                                    </CardItem>
+                                </Card>
+                            </TouchableOpacity>
+                        }}
+                        />
+                </Content>
+            </Container>
         )
     }
 }
+
+function mapStateToProps({decks}) {
+    return {
+        decks
+    }
+}
+
+export default connect(mapStateToProps)(Decks);
