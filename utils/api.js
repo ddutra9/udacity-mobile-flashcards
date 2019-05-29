@@ -11,3 +11,22 @@ export function saveDeckTitle (title) {
         title: title, questions: []
     }))
 }
+
+export function addCardToDeck (title, card) {  
+  return fetchDecksResults().then((decks) => {
+    let deck = decks.filter((deck) => {
+      return deck.title === title
+    })
+
+    deck.questions.push(card)
+    return AsyncStorage.mergeItem(FLASH_CARD_STORAGE_KEY, JSON.stringify({deck}))
+  })
+}
+
+export function getDeck (title) {  
+  return fetchDecksResults().then((decks) => {
+    return decks.filter((deck) => {
+      return deck.title === title;
+    })
+  })
+}

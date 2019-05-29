@@ -3,6 +3,9 @@ import { connect } from "react-redux"
 import { AppLoading} from 'expo'
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
+import {fetchDecksResults} from '../utils/api'
+import { receiveDecks } from "../actions"
+
 class Decks extends Component {
 
     state = {
@@ -12,15 +15,8 @@ class Decks extends Component {
     componentDidMount () {
         const { dispatch } = this.props
 
-        fetchCalendarResults()
-            .then((entries) => dispatch(receiveEntries(entries)))
-            .then(({ entries }) => {
-                if (!entries[timeToString()]) {
-                        dispatch(addEntry({
-                        [timeToString()]: getDailyReminderValue()
-                        }))
-                    }
-                })
+        fetchDecksResults()
+            .then((decks) => dispatch(receiveDecks(decks)))
             .then(() => this.setState(() => ({ready: true})))
     }
 
@@ -29,14 +25,20 @@ class Decks extends Component {
     }
 
     render() {
-        const { decks } = this.props;
+        const {decks} = this.props
+        const {ready} = this.state
+        if(!ready) {
+            return (
+                <AppLoading />
+            )
+        }
 
         return (
             <View style={{flex: 1}}>
                 <FlatList
                     data={decks}
                     renderItem={({item}) => {
-                        <TouchableOpacity key={item.title} onPress={() => this.onDeckCardPress(itme)}>
+                        <TouchableOpacity key={item.title} onPress={() => this.onDeckCardPress(item)}>
                             <Text>{item.title}</Text>
                             <Text>{item.questions.length} cards</Text>
                         </TouchableOpacity>
@@ -47,9 +49,9 @@ class Decks extends Component {
     }
 }
 
-function mapStateToProps({decks}) {
+function mapStateToProps(state) {
     return {
-        decks
+        decks: state.decks
     }
 }
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, KeyboardAvoidingView} from 'react-native'
 import { connect } from "react-redux"
+
 import { addDeck } from "../actions"
 import {saveDeckTitle} from '../utils/api'
-
 import FloatingLabelInput from './FloatingLabelInput'
 import { purple, white, black } from '../utils/colors'
 
@@ -36,22 +36,22 @@ class AddDeck extends React.Component {
 
     render() {
         return (            
-                <View style={styles.container}>
-                    <KeyboardAvoidingView behavior="padding">
-                        <Text style={styles.header}>What is the title of your new deck?</Text>
-                        <View style={{alignSelf:"stretch"}}>
-                            <FloatingLabelInput  label="Deck Title"
-                                value={this.state.title}
-                                onChange={this.handleChange} />
-                        </View>
-                        
-                        <View style={{flex:1, flexDirection:"row",  alignSelf:"stretch", justifyContent:"center"}} full>
-                            <TouchableOpacity style={[styles.btn]} onPress={this.onAddCreateDeckPress}>
-                                <Text style={styles.text}>Create Deck</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </KeyboardAvoidingView>
-                </View>            
+            <View style={styles.container}>
+                <KeyboardAvoidingView behavior="padding">
+                    <Text style={styles.header}>What is the title of your new deck?</Text>
+                    <View style={{alignSelf:"stretch"}}>
+                        <FloatingLabelInput  label="Deck Title"
+                            value={this.state.title}
+                            onChange={this.handleChange} />
+                    </View>
+                    
+                    <View style={{flex:1, flexDirection:"row",  alignSelf:"stretch", justifyContent:"center"}} full>
+                        <TouchableOpacity style={[styles.btn]} onPress={this.onAddCreateDeckPress}>
+                            <Text style={styles.text}>Create Deck</Text>
+                        </TouchableOpacity>
+                    </View>
+                </KeyboardAvoidingView>
+            </View>            
         )
     }
 }

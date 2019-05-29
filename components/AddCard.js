@@ -1,7 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import { connect } from "react-redux";
-import { handleAddCardToDeck  } from "../actions/decks";
+
+import { addCardToDeck  } from "../actions";
+import API from '../utils/api'
 import { purple } from '../utils/colors'
 import FloatingLabelInput from './FloatingLabelInput'
 
@@ -15,20 +17,26 @@ class AddCard extends React.Component {
             return alert("Campos requeridos!")
         }
 
-        this.props.onAddCardToDeck(title, {
+        API.addCardToDeck(title, {
             question,
             answer
-        });
+        }).then((deck) =>  this.props.dispatch(addCardToDeck(deck)))
+        .then(() => {
+            this.setState({ 
+                question: null,
+                answer: null 
+            })
+        })
     }
 
     state = {
         question: null,
         answer: null
-    };
+    }
 
     handleChange = name => value => {
-        this.setState({ [name]: value });
-    };
+        this.setState({ [name]: value })
+    }
     
     render() {
         
@@ -51,19 +59,13 @@ class AddCard extends React.Component {
 
 function mapStateToProps (state, { navigation }) {
     const { title } = navigation.state.params
-  
-    return {
-      title,
-    }
-  }
 
-function mapDispatchToProps(dispatch) {
     return {
-        onAddCardToDeck: (title, card) => { dispatch(handleAddCardToDeck(title, card)) }
-    };
+        title,
+    }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddCard);
+export default connect(mapStateToProps)(AddCard);
 
 const styles = StyleSheet.create({
     container: {
