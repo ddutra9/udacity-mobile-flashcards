@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, KeyboardAvoidingView} from 'react-native'
-import { Container, Button, Text, Item, Input, Form } from 'native-base'
+import { StyleSheet, View, Text, TouchableOpacity, KeyboardAvoidingView} from 'react-native'
 import { connect } from "react-redux"
-import { handleSaveDeckTitle } from "../actions/decks"
-import { purple, white } from '../utils/colors'
+import { addDeck } from "../actions"
+import {saveDeckTitle} from '../utils/api'
+
+import FloatingLabelInput from './FloatingLabelInput'
+import { purple, white, black } from '../utils/colors'
 
 class AddDeck extends React.Component {
 
@@ -18,12 +20,13 @@ class AddDeck extends React.Component {
             return alert("Please Enter Deck title")
         }
 
-        this.props.saveDeckTitle(title).then(() => {
-            this.props.navigation.navigate("Deck", {
-                title : this.state.title
-            })
+        saveDeckTitle(title).then(() => {
+            // this.props.navigation.navigate("AddCard", {
+            //     title : this.state.title
+            // })
 
-            this.setState({ title: null })
+            // this.setState({ title: null })
+            this.props.dispatch(addDeck(title))
         })  
     }
 
@@ -33,58 +36,49 @@ class AddDeck extends React.Component {
 
     render() {
         return (            
-                <Container style={styles.container}>
+                <View style={styles.container}>
                     <KeyboardAvoidingView behavior="padding">
-                        <Text style={[styles.selfAlign,styles.text1]}>What is the title of your new deck?</Text>
-                        <Form style={{alignSelf:"stretch"}}>
-                            <Item style={{backgroundColor:"white"}} rounded>
-                                <Input  placeholder='Deck Title' 
-                                    value={this.state.title}
-                                    onChangeText={this.handleChange} />
-                            </Item>
-                        </Form>
+                        <Text style={styles.header}>What is the title of your new deck?</Text>
+                        <View style={{alignSelf:"stretch"}}>
+                            <FloatingLabelInput  label="Deck Title"
+                                value={this.state.title}
+                                onChange={this.handleChange} />
+                        </View>
                         
                         <View style={{flex:1, flexDirection:"row",  alignSelf:"stretch", justifyContent:"center"}} full>
-                            <Button style={[styles.btn]} onPress={this.onAddCreateDeckPress}>
-                                <Text>
-                                    Create Deck
-                                </Text>
-                            </Button>
+                            <TouchableOpacity style={[styles.btn]} onPress={this.onAddCreateDeckPress}>
+                                <Text style={styles.text}>Create Deck</Text>
+                            </TouchableOpacity>
                         </View>
                     </KeyboardAvoidingView>
-                </Container>            
+                </View>            
         )
     }
 }
 
-function mapStateToProps({newDeckId}) {
-    return {
-        newDeckId : newDeckId.newDeckId
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        saveDeckTitle: (title) => dispatch(handleSaveDeckTitle(title))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddDeck);
+export default connect()(AddDeck);
 
 const styles = StyleSheet.create({
     selfAlign : {
         alignSelf:"center"
     },
-    text1 : {
+    header : {
         fontWeight:"bold",
         fontSize: 20,
         marginTop: 30,
         marginBottom: 30,
+        color: black,
+    },
+    text : {
+        fontWeight:"bold",
+        fontSize: 20,
         color: white,
     },  
     btn : {
         alignSelf: "center",
-        backgroundColor: purple
+        backgroundColor: purple,
+        borderRadius: 25,
+        padding: 30,
     },
     container: {
         flex:1,

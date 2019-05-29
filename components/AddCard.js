@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet} from 'react-native';
-import { Container, Button, Text, Item, Input, Form } from 'native-base';
+import { StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import { connect } from "react-redux";
 import { handleAddCardToDeck  } from "../actions/decks";
 import { purple } from '../utils/colors'
@@ -9,7 +8,7 @@ import FloatingLabelInput from './FloatingLabelInput'
 class AddCard extends React.Component {
     
     onAddCardPress() {
-        const { title } = this.props.navigation.state.params;
+        const { title } = this.props;
         const { question, answer } = this.state;
 
         if(!question || !answer) {
@@ -34,26 +33,29 @@ class AddCard extends React.Component {
     render() {
         
         return (
-            <Container style={styles.container}>     
-                
-                    <Form style={{alignSelf:"stretch"}}>
-                        <FloatingLabelInput  label="Email"
-                            value={this.state.value}
-                            onChange={this.handleChange('question')} />
-
-                        <Item style={styles.cardInputField} rounded>
-                            <Input placeholder='Answer' 
-                                onChangeText={this.handleChange('answer')}/>
-                        </Item>
-                    </Form>
-                    <Button style={styles.btn} onPress={()=> this.onAddCardPress() } block >
-                        <Text>Submit</Text>
-                    </Button>
-                
-            </Container>
+            <View style={styles.container}>     
+                <View style={{alignSelf:"stretch"}}>
+                    <FloatingLabelInput  label="Question"
+                        onChange={this.handleChange('question')} />
+                    
+                    <FloatingLabelInput label="Answer"
+                        onChange={this.handleChange('answer')} />
+                </View>
+                <TouchableOpacity style={styles.btn} onPress={()=> this.onAddCardPress() } block >
+                    <Text>Submit</Text>
+                </TouchableOpacity>
+            </View>
         );
     }
 }
+
+function mapStateToProps (state, { navigation }) {
+    const { title } = navigation.state.params
+  
+    return {
+      title,
+    }
+  }
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -61,7 +63,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(AddCard);
+export default connect(mapStateToProps, mapDispatchToProps)(AddCard);
 
 const styles = StyleSheet.create({
     container: {

@@ -2,14 +2,15 @@ import React from 'react';
 import { View, Platform, StatusBar } from 'react-native';
 import { createBottomTabNavigator, createAppContainer, 
   createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation';
-// import { createStore } from 'redux'
-// import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
 
 import Decks from './components/Decks'
 import AddDeck from './components/AddDeck'
 import { purple, white } from './utils/colors'
+import reducer from './reducers'
 
 
 function UdaciStatusBar ({backgroundColor, ...props}) {
@@ -72,28 +73,19 @@ const MainNavigator = createAppContainer(createStackNavigator({
       header: null,
     },
   },
-  // EntryDetail: {
-  //   screen: EntryDetail,
-  //   navigationOptions: ({ navigation }) => ({
-  //     headerTintColor: white,
-  //     headerStyle: {
-  //       backgroundColor: purple,
-  //     },
-  //   }),
-  // },
 }));
 
 export default class App extends React.Component {
-  // store = createStore(reducer)
+  store = createStore(reducer)
 
   render() {
     return (
-      // <Provider store={this.store}>
-      <View style={{flex: 1}}>
-        <UdaciStatusBar backgroundColor={purple} barStyle="light-content" />
-        <MainNavigator />
-      </View>
-      // </Provider>
+      <Provider store={this.store}>
+        <View style={{flex: 1}}>
+          <UdaciStatusBar backgroundColor={purple} barStyle="light-content" />
+          <MainNavigator />
+        </View>
+      </Provider>
     );
   }
 }

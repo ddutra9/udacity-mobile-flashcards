@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput } from 'react-native';
+import {gray, purple} from '../utils/colors'
 
 export default class FloatingLabelInput extends React.Component {
     state = {
@@ -17,7 +18,7 @@ export default class FloatingLabelInput extends React.Component {
         left: 0,
         top: !isFocused ? 18 : 0,
         fontSize: !isFocused ? 20 : 14,
-        color: !isFocused ? '#aaa' : '#000',
+        color: !isFocused ? gray : purple,
       };
       return (
         <View style={{ paddingTop: 18 }}>

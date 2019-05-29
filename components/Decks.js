@@ -1,11 +1,28 @@
-import React, {FlatList, StyleSheet} from 'react-native';
-import {Container, Content, Card, CardItem, Text} from 'native-base';
+import React, { Component } from 'react'
+import { connect } from "react-redux"
+import { AppLoading} from 'expo'
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-class Decks extends React.Component {
+class Decks extends Component {
 
     state = {
-        decks: null,
-    };
+        ready: false,
+    }
+
+    componentDidMount () {
+        const { dispatch } = this.props
+
+        fetchCalendarResults()
+            .then((entries) => dispatch(receiveEntries(entries)))
+            .then(({ entries }) => {
+                if (!entries[timeToString()]) {
+                        dispatch(addEntry({
+                        [timeToString()]: getDailyReminderValue()
+                        }))
+                    }
+                })
+            .then(() => this.setState(() => ({ready: true})))
+    }
 
     onDeckCardPress(deck) {
        //TODO: go to page
@@ -15,29 +32,17 @@ class Decks extends React.Component {
         const { decks } = this.props;
 
         return (
-            <Container style={{flex: 1}}>
-                <Content>
-                    <FlatList
-                        data={decks}
-                        renderItem={({item}) => {
-                            <TouchableOpacity key={item.id} onPress={() => this.onDeckCardPress(itme)}>
-                                <Card bordered >
-                                    <CardItem header style={{justifyContent:"center",backgroundColor:colors.homeCardBackgroundColor}} >
-                                            <Text>{item.title}</Text>
-                                    </CardItem>
-                                    <CardItem style={{backgroundColor:colors.homeCardBackgroundColor}}>
-                                        <Body style={{alignItems:"center"}}>
-                                            <Text>
-                                                {item.questions.length} cards
-                                            </Text>
-                                        </Body>
-                                    </CardItem>
-                                </Card>
-                            </TouchableOpacity>
-                        }}
-                        />
-                </Content>
-            </Container>
+            <View style={{flex: 1}}>
+                <FlatList
+                    data={decks}
+                    renderItem={({item}) => {
+                        <TouchableOpacity key={item.title} onPress={() => this.onDeckCardPress(itme)}>
+                            <Text>{item.title}</Text>
+                            <Text>{item.questions.length} cards</Text>
+                        </TouchableOpacity>
+                    }}
+                    />
+            </View>
         )
     }
 }
