@@ -3,13 +3,14 @@ import { AsyncStorage } from 'react-native'
 export const FLASH_CARD_STORAGE_KEY = 'UdaciFitness:flashCard'
 
 export function fetchDecksResults () {
+  // AsyncStorage.removeItem(FLASH_CARD_STORAGE_KEY)
   return AsyncStorage.getItem(FLASH_CARD_STORAGE_KEY)
+    .then((results) => JSON.parse(results))
 }
 
 export function saveDeckTitle (title) {  
-    return AsyncStorage.mergeItem(FLASH_CARD_STORAGE_KEY, JSON.stringify({
-        title: title, questions: []
-    }))
+    const deck = {title: title, questions: []}
+    return AsyncStorage.mergeItem(FLASH_CARD_STORAGE_KEY, JSON.stringify({[title]: deck}))
 }
 
 export function addCardToDeck (title, card) {  

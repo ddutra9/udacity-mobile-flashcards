@@ -10,10 +10,10 @@ import { purple, white, black } from '../utils/colors'
 class AddDeck extends React.Component {
 
     state = {
-        title: null
+        title: undefined
     }
 
-    onAddCreateDeckPress() {
+    onAddCreateDeckPress = () => {
         const {title} = this.state
 
         if(!title) {
@@ -25,13 +25,13 @@ class AddDeck extends React.Component {
             //     title : this.state.title
             // })
 
-            // this.setState({ title: null })
+            this.setState({ title: undefined })
             this.props.dispatch(addDeck(title))
-        })  
+        })
     }
 
     handleChange = value => {
-        this.setState({ 'title': value })
+        this.setState({ title: value })
     }
 
     render() {
@@ -42,7 +42,7 @@ class AddDeck extends React.Component {
                     <View style={{alignSelf:"stretch"}}>
                         <FloatingLabelInput  label="Deck Title"
                             value={this.state.title}
-                            onChange={this.handleChange} />
+                            onChangeText={this.handleChange} />
                     </View>
                     
                     <View style={{flex:1, flexDirection:"row",  alignSelf:"stretch", justifyContent:"center"}} full>

@@ -5,8 +5,8 @@ function entries (state = {}, action) {
     case RECEIVE_DECKS :
       return {
         ...state,
-        ...action.decks,
-      }
+        ...action.decks
+      }   
     case ADD_DECK :
     case GET_DECK :
     case ADD_CARD_DECK :
