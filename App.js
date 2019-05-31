@@ -9,6 +9,7 @@ import { Constants } from 'expo'
 
 import Decks from './components/Decks'
 import AddDeck from './components/AddDeck'
+import AddCard from './components/AddCard'
 import { purple, white } from './utils/colors'
 import reducer from './reducers'
 
@@ -73,6 +74,7 @@ const MainNavigator = createAppContainer(createStackNavigator({
       header: null,
     },
   },
+  addCard: {screen: AddCard}
 }));
 
 export default class App extends React.Component {

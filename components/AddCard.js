@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text} from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, KeyboardAvoidingView} from 'react-native';
 import { connect } from "react-redux";
 
 import { addCardToDeck  } from "../actions";
@@ -20,12 +20,10 @@ class AddCard extends React.Component {
         API.addCardToDeck(title, {
             question,
             answer
-        }).then((deck) =>  this.props.dispatch(addCardToDeck(deck)))
+        })
+        .then((deck) =>  this.props.dispatch(addCardToDeck(deck)))
         .then(() => {
-            this.setState({ 
-                question: null,
-                answer: null 
-            })
+            this.setState({question: null, answer: null})
         })
     }
 
@@ -42,16 +40,18 @@ class AddCard extends React.Component {
         
         return (
             <View style={styles.container}>     
-                <View style={{alignSelf:"stretch"}}>
-                    <FloatingLabelInput  label="Question"
-                        onChange={this.handleChange('question')} />
-                    
-                    <FloatingLabelInput label="Answer"
-                        onChange={this.handleChange('answer')} />
-                </View>
-                <TouchableOpacity style={styles.btn} onPress={()=> this.onAddCardPress() } block >
-                    <Text>Submit</Text>
-                </TouchableOpacity>
+                <KeyboardAvoidingView behavior="padding">
+                    <View style={{alignSelf:"stretch"}}>
+                        <FloatingLabelInput  label="Question"
+                            onChangeText={this.handleChange('question')} />
+                        
+                        <FloatingLabelInput label="Answer"
+                            onChangeText={this.handleChange('answer')} />
+                    </View>
+                    <TouchableOpacity style={styles.btn} onPress={()=> this.onAddCardPress() } block >
+                        <Text>Submit</Text>
+                    </TouchableOpacity>
+                </KeyboardAvoidingView>
             </View>
         );
     }
