@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native'
 export const FLASH_CARD_STORAGE_KEY = 'UdaciFitness:flashCard'
 
 export function fetchDecksResults () {
-  // AsyncStorage.removeItem(FLASH_CARD_STORAGE_KEY)
+  //AsyncStorage.removeItem(FLASH_CARD_STORAGE_KEY)
   return AsyncStorage.getItem(FLASH_CARD_STORAGE_KEY)
     .then((results) => JSON.parse(results))
 }
@@ -13,10 +13,11 @@ export function saveDeckTitle (title) {
     return AsyncStorage.mergeItem(FLASH_CARD_STORAGE_KEY, JSON.stringify({[title]: deck}))
 }
 
-export function addCardToDeck (title, card) {  
+export function saveCardToDeck (title, card) {  
   return fetchDecksResults().then((decks) => {
     decks[title].questions.push(card)
-    return AsyncStorage.setItem(FLASH_CARD_STORAGE_KEY, JSON.stringify({decks}))
+    AsyncStorage.setItem(FLASH_CARD_STORAGE_KEY, JSON.stringify(decks))
+    return decks
   })
 }
 

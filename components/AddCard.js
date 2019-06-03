@@ -3,8 +3,8 @@ import { StyleSheet, View, TouchableOpacity, Text, KeyboardAvoidingView} from 'r
 import { connect } from "react-redux";
 
 import { addCardToDeck  } from "../actions";
-import API from '../utils/api'
-import { purple } from '../utils/colors'
+import { saveCardToDeck } from '../utils/api'
+import { purple, white } from '../utils/colors'
 import FloatingLabelInput from './FloatingLabelInput'
 
 class AddCard extends React.Component {
@@ -17,19 +17,19 @@ class AddCard extends React.Component {
             return alert("Campos requeridos!")
         }
 
-        API.addCardToDeck(title, {
+        saveCardToDeck(title, {
             question,
             answer
         })
-        .then((deck) =>  this.props.dispatch(addCardToDeck(deck)))
+        .then((decks) =>  this.props.dispatch(addCardToDeck(decks)))
         .then(() => {
-            this.setState({question: null, answer: null})
+            this.setState({question: undefined, answer: undefined})
         })
     }
 
     state = {
-        question: null,
-        answer: null
+        question: undefined,
+        answer: undefined
     }
 
     handleChange = name => value => {
@@ -41,15 +41,17 @@ class AddCard extends React.Component {
         return (
             <View style={styles.container}>     
                 <KeyboardAvoidingView behavior="padding">
-                    <View style={{alignSelf:"stretch"}}>
-                        <FloatingLabelInput  label="Question"
+                    <View style={{marginBottom: 20, alignSelf:"stretch"}}>
+                        <FloatingLabelInput label="Question"
+                            value={this.state.question}
                             onChangeText={this.handleChange('question')} />
                         
                         <FloatingLabelInput label="Answer"
+                            value={this.state.answer}
                             onChangeText={this.handleChange('answer')} />
                     </View>
                     <TouchableOpacity style={styles.btn} onPress={()=> this.onAddCardPress() } block >
-                        <Text>Submit</Text>
+                        <Text style={styles.text}>Submit</Text>
                     </TouchableOpacity>
                 </KeyboardAvoidingView>
             </View>
@@ -72,8 +74,14 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems: 'center'
     },
+    text: {
+        fontWeight:"bold",
+        fontSize: 20,
+        color: white,
+    },  
     btn: {
-        margin: 30,
-        backgroundColor: purple
+        backgroundColor: purple,
+        borderRadius: 25,
+        padding: 20,
     },
 })

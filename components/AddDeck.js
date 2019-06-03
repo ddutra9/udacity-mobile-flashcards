@@ -23,9 +23,10 @@ class AddDeck extends React.Component {
         saveDeckTitle(title).then(() => {
             this.props.dispatch(addDeck(title))
         }).then(() => {
-            this.props.navigation.navigate("addCard", {
-                title : this.state.title
-            })
+            this.props.navigation.navigate(
+                'addCard',
+                { title: title }
+            )
 
             this.setState({ title: undefined })
         })

@@ -8,7 +8,11 @@ export default class FloatingLabelInput extends React.Component {
     };
   
     handleFocus = () => this.setState({ isFocused: true });
-    handleBlur = () => this.setState({ isFocused: false });
+    handleBlur = () => {
+      if(!this.props.value) {
+        this.setState({ isFocused: false });
+      }      
+    } 
   
     render() {
       const { label, ...props } = this.props;

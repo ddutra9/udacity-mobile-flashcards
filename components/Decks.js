@@ -6,7 +6,7 @@ import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native
 
 import {fetchDecksResults} from '../utils/api'
 import { receiveDecks } from "../actions"
-import {black, gray} from '../utils/colors'
+import {black, lightGray, purple} from '../utils/colors'
 
 class Decks extends Component {
 
@@ -22,15 +22,16 @@ class Decks extends Component {
             .then(() => this.setState(() => ({ready: true})))
     }
 
-    onDeckCardPress(deck) {
-       //TODO: go to page
+    onDeckCardPress(key) {
+        this.props.navigation.navigate(
+            'quiz',
+            { title: key }
+        )
     }
 
     render() {
         const {decks} = this.props
         const {ready} = this.state
-        
-        // Object.keys(decks).map((key) => console.log(key))
 
         if(ready === false) {
             return (
@@ -38,10 +39,10 @@ class Decks extends Component {
             )
         }
 
-        if(!decks) {
+        if(!decks || Object.values(decks).length == 0) {
             return (
-                <View style={{flex: 1}}>
-                    <Text>Please add Decks on App!</Text>
+                <View style={styles.containerNoDecks}>
+                    <Text style={{alignSelf:"center"}}>Please add Decks on App!</Text>
                 </View>
             )
         }
@@ -52,10 +53,10 @@ class Decks extends Component {
                     <TouchableOpacity style={styles.row} key={key}
                         onPress={() => this.onDeckCardPress(key)}>
                         <View style={styles.rowContainerLeft}>
-                            <Text style={styles.rowQuestions}>{decks[key].questions.length} cards</Text>
+                            <Text style={styles.rowQuestions}>{decks[key].questions ? decks[key].questions.length : 0} cards</Text>
                             <Text style={styles.rowTitle}>{decks[key].title}</Text>
                         </View>
-                        <Ionicons color={black} size={20}  name='cards-outline' />
+                        <Ionicons color={purple} size={20}  name='md-chatbubbles' />
                     </TouchableOpacity>
                 )}
             </ScrollView>
@@ -70,10 +71,15 @@ const styles = StyleSheet.create(
         marginTop: 14,
         alignSelf: "stretch",
       },
+      containerNoDecks: {
+        flex:1,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
       row: {
         elevation: 1,
         borderRadius: 2,
-        backgroundColor: colors.tertiary,
+        backgroundColor: lightGray,
         flex: 1,
         flexDirection: 'row',  // main axis
         justifyContent: 'flex-start', // main axis
@@ -92,18 +98,18 @@ const styles = StyleSheet.create(
         flexDirection: 'column',
       },
       rowQuestions: {
-        color: gray,
+        color: black,
         textAlignVertical: 'bottom',
         includeFontPadding: false,
         flex: 0,
-        fontSize: 6
+        fontSize: 12
       },
       rowTitle: {
         color: black,
         textAlignVertical: 'top',
         includeFontPadding: false,
         flex: 0,
-        fontSize: 14
+        fontSize: 20
       },
     });
 

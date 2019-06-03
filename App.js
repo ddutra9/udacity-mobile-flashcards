@@ -10,6 +10,7 @@ import { Constants } from 'expo'
 import Decks from './components/Decks'
 import AddDeck from './components/AddDeck'
 import AddCard from './components/AddCard'
+import Quiz from './components/Quiz'
 import { purple, white } from './utils/colors'
 import reducer from './reducers'
 
@@ -62,10 +63,9 @@ const navigationOptions = {
 };
 
 const TabNav =
-    createAppContainer(
       Platform.OS === 'ios'
       ? createBottomTabNavigator(router, navigationOptions)
-      : createMaterialTopTabNavigator(router, navigationOptions))
+      : createMaterialTopTabNavigator(router, navigationOptions)
 
 const MainNavigator = createAppContainer(createStackNavigator({
   home: {
@@ -74,7 +74,32 @@ const MainNavigator = createAppContainer(createStackNavigator({
       header: null,
     },
   },
-  addCard: {screen: AddCard}
+  addCard: {
+    screen: AddCard,
+    navigationOptions: {
+      title: 'Add Card',
+      headerTintColor: Platform.OS === 'ios' ? purple : white,
+      headerStyle: {
+        backgroundColor: Platform.OS === 'ios' ? white : purple,
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
+  },
+  quiz: {
+    screen: Quiz,
+    navigationOptions: {
+      title: 'Quiz',
+      headerTintColor: Platform.OS === 'ios' ? purple : white,
+      headerStyle: {
+        backgroundColor: Platform.OS === 'ios' ? white : purple,
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }
+  }
 }));
 
 export default class App extends React.Component {
