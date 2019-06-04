@@ -24,7 +24,7 @@ class AddDeck extends React.Component {
             this.props.dispatch(addDeck(title))
         }).then(() => {
             this.props.navigation.navigate(
-                'addCard',
+                'cards',
                 { title: title }
             )
 

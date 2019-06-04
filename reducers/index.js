@@ -5,18 +5,18 @@ function entries (state = {}, action) {
     case RECEIVE_DECKS :
       return {
         ...state,
-        ...action.decks
+        ...action.payload.decks
       }   
     case ADD_DECK :
     case GET_DECK :
       return {
         ...state,
-        [action.title]: {title: action.title, questions: []},
+        [action.payload.title]: {title: action.payload.title, questions: []},
       }
     
     case ADD_CARD_DECK :
       return {
-        ...action.decks
+        ...action.payload.decks
       }
     default :
       return state

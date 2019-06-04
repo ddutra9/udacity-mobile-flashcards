@@ -12,3 +12,6 @@ These instructions will get you a copy of the project up and running on your loc
 * Go to react app `cd udacity-mobile-flashcards`.
 * Install all project dependencies with `yarn install`.
 * Run server with `yarn start`.
+
+### Supported Handware
+This app has been testing on a Xiaomi mi a2 lite running Android 8.1.0

@@ -23,7 +23,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "org.udacity.mobile.flashcards.exp"
+    },
+    "android": {
+      "package": "org.udacity.mobile.flashcards.exp"
     }
   }
 }

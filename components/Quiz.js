@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Animated, View, Text, TouchableOpacity } from 'react-native';
 import { connect } from "react-redux";
 
 import { purple, white, red, black } from "../utils/colors";
 
-class Quiz extends React.Component {
+class Quiz extends PureComponent {
+    
+    constructor(props) {
+        super(props)
 
-    state = {
-        questionIndex: 0,
-        correctAnswer: 0,
-        quizCompleted: false,
-        flipText: "Show Answer",
+        this.state = {
+            questionIndex: 0,
+            correctAnswer: 0,
+            quizCompleted: false,
+            flipText: "Show Answer",
+        }
     }
 
     componentWillMount(){
@@ -77,14 +81,7 @@ class Quiz extends React.Component {
     }
 
     restartQuiz() {
-        this.setState({
-            correctAnswer:0,
-            questionIndex:0,
-            quizCompleted: false
-        })
-
-        this.value = 180;
-        this.flipCard();
+        this.props.navigation.goBack()
     }
 
     render() {
@@ -132,7 +129,7 @@ class Quiz extends React.Component {
                         <Text style={styles.text}>{this.state.flipText}</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{flexDirection: 'row', marginBottom: 40}}>
+                <View style={styles.containerBtns}>
                     <TouchableOpacity style={[styles.btn, {marginRight:10}]} onPress={()=> this.markQuestion(true) } >
                         <Text style={styles.text}>Correct</Text>
                     </TouchableOpacity>
@@ -188,6 +185,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
+    },
+    containerBtns: {
+        flexDirection: 'row', 
+        marginBottom: 40
     },
     flipCard: {
         width: 250,

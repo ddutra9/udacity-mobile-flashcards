@@ -24,7 +24,7 @@ class Decks extends Component {
 
     onDeckCardPress(key) {
         this.props.navigation.navigate(
-            'quiz',
+            'cards',
             { title: key }
         )
     }

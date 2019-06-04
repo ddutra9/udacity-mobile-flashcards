@@ -3,31 +3,26 @@ export const GET_DECK = 'GET_DECK'
 export const ADD_CARD_DECK = 'ADD_CARD_DECK'
 export const RECEIVE_DECKS = 'RECEIVE_DECKS'
 
-export function addDeck (title) {
-    return {
-        type: ADD_DECK,
-        title,
-    }
-} 
+export const addDeck = title => ({
+  type: ADD_DECK,
+  payload: { title },
+  error: false,
+})
 
-export function addCardToDeck (decks) {
-  return {
-      type: ADD_CARD_DECK,
-      decks,
-  }
-} 
+export const addCardToDeck = decks => ({
+  type: ADD_CARD_DECK,
+  payload: {decks},
+  error: false,
+})
 
-export function getDeck (deck) {
-  return {
-      type: GET_DECK,
-      deck,
-  }
-} 
+export const getDeck = deck => ({
+  type: GET_DECK,
+  payload: {deck},
+  error: false,
+})
 
-export function receiveDecks (decks) {
-    return {
-      type: RECEIVE_DECKS,
-      decks,
-    }
-  }
-  
+export const receiveDecks = decks => ({
+  type: RECEIVE_DECKS,
+  payload: {decks},
+  error: false,
+})
